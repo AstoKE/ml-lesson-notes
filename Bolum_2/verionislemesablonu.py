@@ -10,82 +10,67 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-#2.veri onisleme
-#2.1.veri yukleme
-veriler = pd.read_csv('veriler.csv')
-#pd.read_csv("veriler.csv")
-#test
-print(veriler)
+# veri yukleme
+veriler = pd.read_csv('maaslar.csv')
 
-#encoder: Kategorik -> Numeric
-ulke = veriler.iloc[:,0:1].values
-print(ulke)
-
-from sklearn import preprocessing
-
-le = preprocessing.LabelEncoder()
-
-ulke[:,0] = le.fit_transform(veriler.iloc[:,0])
-
-print(ulke)
+x = veriler.iloc[:,1:2]
+y = veriler.iloc[:,2:]
+X = x.values
+Y = y.values
 
 
-ohe = preprocessing.OneHotEncoder()
-ulke = ohe.fit_transform(ulke).toarray()
-print(ulke)
+#linear regression
+from sklearn.linear_model import LinearRegression
+lin_reg = LinearRegression()
+lin_reg.fit(X,Y)
 
-#encoder: Kategorik -> Numeric
-c = veriler.iloc[:,-1:].values
-print(c)
-
-
-from sklearn import preprocessing
-
-le = preprocessing.LabelEncoder()
-
-c[:,-1] = le.fit_transform(veriler.iloc[:,-1])
-
-print(c)
+plt.scatter(X,Y,color='red')
+plt.plot(x,lin_reg.predict(X), color = 'blue')
+plt.show()
 
 
-ohe = preprocessing.OneHotEncoder()
-c = ohe.fit_transform(c).toarray()
-print(c)
+#polynomial regression
+from sklearn.preprocessing import PolynomialFeatures
+poly_reg = PolynomialFeatures(degree = 2)
+x_poly = poly_reg.fit_transform(X)
+print(x_poly)
+lin_reg2 = LinearRegression()
+lin_reg2.fit(x_poly,y)
+plt.scatter(X,Y,color = 'red')
+plt.plot(X,lin_reg2.predict(poly_reg.fit_transform(X)), color = 'blue')
+plt.show()
 
+from sklearn.preprocessing import PolynomialFeatures
+poly_reg = PolynomialFeatures(degree = 4)
+x_poly = poly_reg.fit_transform(X)
+print(x_poly)
+lin_reg2 = LinearRegression()
+lin_reg2.fit(x_poly,y)
+plt.scatter(X,Y,color = 'red')
+plt.plot(X,lin_reg2.predict(poly_reg.fit_transform(X)), color = 'blue')
+plt.show()
 
+#tahminler
 
-#numpy dizileri dataframe donusumu
-sonuc = pd.DataFrame(data=ulke, index = range(22), columns = ['fr','tr','us'])
-print(sonuc)
+print(lin_reg.predict([[11]]))
+print(lin_reg.predict([[6.6]]))
 
-sonuc2 = pd.DataFrame(data=yas, index = range(22), columns = ['boy','kilo','yas'])
-print(sonuc2)
-
-cinsiyet = veriler.iloc[:,-1].values
-print(cinsiyet)
-
-sonuc3 = pd.DataFrame(data = c[:,:1], index = range(22), columns = ['cinsiyet'])
-print(sonuc3)
+print(lin_reg2.predict(poly_reg.fit_transform([[6.6]])))
+print(lin_reg2.predict(poly_reg.fit_transform([[11]])))
 
 
 
-#dataframe birlestirme islemi
-s=pd.concat([sonuc,sonuc2], axis=1)
-print(s)
 
-s2=pd.concat([s,sonuc3], axis=1)
-print(s2)
+#verilerin olceklenmesi
+from sklearn.preprocessing import StandardScaler
 
-#verilerin egitim ve test icin bolunmesi
-from sklearn.model_selection import train_test_split
+sc1=StandardScaler()
 
-x_train, x_test,y_train,y_test = train_test_split(s,sonuc3,test_size=0.33, random_state=0)
+x_olcekli = sc1.fit_transform(X)
 
-from sklearn.preprocessing import StandartScaler
+sc2=StandardScaler()
+y_olcekli = np.ravel(sc2.fit_transform(Y.reshape(-1,1)))
 
-sc = StandartScaler()
-X_train = sc.fit_transform(x_train)
-X_test = sc.fit_transform(x_test)
 
 
 
