@@ -40,6 +40,7 @@ plt.scatter(X,Y,color = 'red')
 plt.plot(X,lin_reg2.predict(poly_reg.fit_transform(X)), color = 'blue')
 plt.show()
 
+
 from sklearn.preprocessing import PolynomialFeatures
 poly_reg = PolynomialFeatures(degree = 4)
 x_poly = poly_reg.fit_transform(X)
@@ -57,7 +58,6 @@ print(lin_reg.predict([[6.6]]))
 
 print(lin_reg2.predict(poly_reg.fit_transform([[6.6]])))
 print(lin_reg2.predict(poly_reg.fit_transform([[11]])))
-
 
 
 
@@ -104,6 +104,8 @@ y_new_scaled_pred = svr_reg.predict(x_new_scaled)
 y_new_pred = sc2.inverse_transform(y_new_scaled_pred.reshape(-1, 1))
 print("SVR(6.6) tahmin:", y_new_pred.ravel()[0])
 
+
+#Decision Tree Regresyonu
 from sklearn.tree import DecisionTreeRegressor
 
 r_dt = DecisionTreeRegressor(random_state=0)
@@ -117,13 +119,15 @@ plt.plot(X,r_dt.predict(X), color='blue')
 
 plt.plot(X,r_dt.predict(Z), color='green')
 plt.plot(X,r_dt.predict(K), color='yellow')
+plt.show()
 
+print(r_dt.predict([[11]]))
+print(r_dt.predict([[6.6]]))
 
 # desicion tree algoritması veriyi aralıklar bölerek her aralıkta sabit bir tahmin verir.
 # SVR: veriya göre optimum "marj" içinde düzgün bir eğri çizer.
 
-#Random Forest------------------------
-
+#Random Forest Regresyonu
 from sklearn.ensemble import RandomForestRegressor
 rf_reg=RandomForestRegressor(n_estimators = 10,random_state=0) # n_estimators = kaç tane ağaç kullanılacak
 rf_reg.fit(X,Y.ravel())
@@ -138,5 +142,24 @@ plt.plot(x,r_dt.predict(K),color='yellow')
 plt.show()
 
 
+from sklearn.metrics import r2_score
 
+print(r2_score(Y, rf_reg.predict(K)))
+print(r2_score(Y, rf_reg.predict(Z)))
 
+# Özet R2 Değerleri
+print("----------------------------------")
+print("Linear R2 değeri: ")
+print(r2_score(Y, lin_reg.predict(X)))
+
+print("Polynomial R2 değeri: ")
+print(r2_score(Y, lin_reg2.predict(poly_reg.fit_transform(X)))) # en iyi değerlerden biri
+
+print("SVR R2 Değeri: ")
+print(r2_score(y_scaled, svr_reg.predict(X_scaled)))
+
+print("Decision Tree R2 Değeri")
+print(r2_score(Y, r_dt.predict(X))) # sıkıntılı bi algoritma
+
+print("Random Forest R2 Değeri: ")
+print(r2_score(Y, rf_reg.predict(X))) # en iyi değerlerden biri
