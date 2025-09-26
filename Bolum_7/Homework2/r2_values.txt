@@ -1,0 +1,38 @@
+
+
+
+--Tek Parametreli Olarak
+
+linear
+R-squared (uncentered):                   0.942
+
+polynomial
+R-squared (uncentered):                   0.759
+
+SVR
+R-squared (uncentered):                   0.770
+
+DT
+R-squared (uncentered):                   0.751
+
+RF
+R-squared (uncentered):                   0.719
+
+
+
+--Üç Parametreli Olarak
+
+linear
+R-squared (uncentered):                   0.903
+
+polynomial
+R-squared (uncentered):                   0.680
+
+SVR
+R-squared (uncentered):                   0.782   buradaki fark scaling in yapmış olduğu etki
+
+DT
+R-squared (uncentered):                   0.679
+
+RF
+R-squared (uncentered):                   0.713
