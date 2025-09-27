@@ -50,6 +50,12 @@ y_pred = logr.predict(X_test)
 print(y_pred)
 print(y_test)
 
+# Confusion Matrix python
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+
 
 
 

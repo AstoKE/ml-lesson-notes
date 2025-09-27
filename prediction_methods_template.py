@@ -102,5 +102,4 @@ print(r2_score(Y, rf_reg.predict(X)) )
 '''
 Alt yapısında karar ağacı kullanan rassal ormanlar (random forest), şimdiye kadar elde ettiğimiz
 yapıya çok benzer şekilde, sklearn kütüphanesi içerisinden bir sınıf olarak RandomForestRegressor eklemiş (import) ve
-bu sınıftan da ürettiğimiz nesne ile fit() ve predict() metotlarını kullanarak makine öğrenmesini gerçekleştirmiştir. 
 '''
